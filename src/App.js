@@ -16,12 +16,27 @@ const App = () => {
 
 	useEffect(() => {
 		GetTopAnime();
-	}, [])
+	
+	}, [] )
+
+	
+	// useEffect(() => {
+	// 	const loadAnime = async () => {
+	// 	  const newAnime = await GetTopAnime(page);
+	// 	  setTopAnime((prev) => [...prev, ...newAnime]);
+	// 	  console.log(topAnime)
+	// 	};
+	
+	// 	loadAnime();
+		
+	//   }, [page]);
+
+
 
 	const GetTopAnime = async () => {
 		const temp = await fetch(`https://api.jikan.moe/v3/top/anime/1/bypopularity`)
 			.then(res => res.json());
-		setTopAnime(temp.top.slice(0, 10))
+			setTopAnime(temp.top.slice(0,10))
 	}
 
 	const handleScroll = (event) => {
@@ -29,11 +44,35 @@ const App = () => {
 
 		if ((scrollTop + clientHeight) >= (scrollHeight-100)) {
 			setPage(prev => prev + 1)
-			console.log(page)
 			
 		}
 	
 	}
+
+
+	useEffect(() => {
+		const downAnime = async () => {
+		  const listAnime = await GetAnimeList(search, page);
+		  setAnimeList((prev) => [...prev, ...listAnime]);
+		  console.log(listAnime)
+		};
+	
+		downAnime();
+		
+	  }, [page]);
+
+
+
+	const GetAnimeList = async (search, page) => {
+		const temp = await fetch(`https://api.jikan.moe/v3/search/anime?q=${search}&order_by=title&sort=asc&limit=20&page=${page}`)
+			.then(res => res.json());
+			return (temp.results)
+	}
+
+
+
+
+
 
 
 	const handleSearch = e => {
@@ -58,11 +97,17 @@ const App = () => {
 				});
 
       }, 1000);
-    }
+    
+	}
 
 	}
 
+	
 
+
+
+
+	
 	// const getSearch = e => {
 
 	// 	if (e.key === 'Enter') {
