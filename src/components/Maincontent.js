@@ -2,42 +2,42 @@ import React from 'react'
 import AnimeCard from './AnimeCard'
 
 
-export const Maincontent = ({search, handleSearch, animeList, loading, setLoading}) => {
-    
+export const Maincontent = ({ search, handleSearch, animeList, loading }) => {
+
 
 	const handleSubmit = e => {
 		e.preventDefault()
-		setLoading(false)
+		// setLoading(false)
 	}
 
-    return (
-        <main>
-        <div className='main-head'>
-        <form 
+	return (
+		<main>
+			<div className='main-head'>
+				<form
 					className="search-box"
 					onSubmit={handleSubmit}
-					>
-					<input 
+				>
+					<input
 						type="search"
 						placeholder="Search for an anime..."
 						required
 						value={search}
 						onChange={handleSearch}
-						// onKeyPress={getSearch}
+					// onKeyPress={getSearch}
 					/>
 				</form>
-				</div>
-				<div className='main-head'>
-					{loading != false ? null: <span>Loading...</span>}
-				</div>
-				<div className="anime-list" >
+			</div>
+			<div className='main-head'>
+				{loading && (<span>Loading...</span>)}
+			</div>
+			<div className="anime-list" >
 				{animeList.map(anime => (
 					<AnimeCard
 						anime={anime}
-						key={anime.mal_id} 
-						/>
+						key={anime.mal_id}
+					/>
 				))}
 			</div>
-        </main>
-    )
+		</main>
+	)
 }
